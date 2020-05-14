@@ -1,4 +1,4 @@
-package com.leetcode.medianOfTwoSortedArrays;
+package com.leetcode.problems.medianOfTwoSortedArrays;
 
 import java.math.BigDecimal;
 

@@ -24,6 +24,8 @@ package com.leetcode.jzoffer;
  * <p>
  * 0 <= m <= 1000
  * <p>
+ *
+ *  与240题相同 https://leetcode-cn.com/problems/search-a-2d-matrix-ii/
  * Created by apa7 on 2020/5/11.
  */
 public class Problem4 {

@@ -1,11 +1,11 @@
-package com.leetcode.addtwonumber;
+package com.leetcode.problems.addtwonumber;
 
 /**
  * Definition for singly-linked list.
- * public class com.leetcode.addtwonumber.ListNode {
+ * public class com.leetcode.problems.addtwonumber.ListNode {
  * int val;
- * com.leetcode.addtwonumber.ListNode next;
- * com.leetcode.addtwonumber.ListNode(int x) { val = x; }
+ * com.leetcode.problems.addtwonumber.ListNode next;
+ * com.leetcode.problems.addtwonumber.ListNode(int x) { val = x; }
  * }
  */
 class Solution {

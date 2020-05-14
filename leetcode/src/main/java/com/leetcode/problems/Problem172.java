@@ -1,4 +1,4 @@
-package com.leetcode.other;
+package com.leetcode.problems;
 
 /**
  * 给定一个整数n, 返回n! 结果尾数中0的数量

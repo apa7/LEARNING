@@ -1,4 +1,4 @@
-package com.leetcode.addtwonumber;
+package com.leetcode.problems.addtwonumber;
 
 import java.io.BufferedReader;
 import java.io.IOException;
