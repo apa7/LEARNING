@@ -1,5 +1,7 @@
 package com.leetcode.problems;
 
+import com.leetcode.jzoffer.Problem14;
+
 /**
  * 343. 整数拆分
  * 给定一个正整数 n，将其拆分为至少两个正整数的和，并使这些整数的乘积最大化。 返回你可以获得的最大乘积。
@@ -18,6 +20,8 @@ package com.leetcode.problems;
  * Created by apa7 on 2020/5/15.
  */
 public class Problem343 {
+
+    //Problem14
 
     public int integerBreak(int n) {
         if (n <= 3) {
