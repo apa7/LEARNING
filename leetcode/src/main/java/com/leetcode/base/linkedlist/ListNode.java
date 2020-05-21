@@ -1,4 +1,4 @@
-package com.leetcode.jzoffer;
+package com.leetcode.base.linkedlist;
 
 public class ListNode {
     int val;
