@@ -1,7 +1,5 @@
 package com.leetcode.problems;
 
-import com.leetcode.jzoffer.Problem12;
-
 //123. 买卖股票的最佳时机 III
 //给定一个数组，它的第 i 个元素是一支给定的股票在第 i 天的价格。
 //
@@ -38,22 +36,22 @@ import com.leetcode.jzoffer.Problem12;
  * k几次交易
  * {0，1} 是否持有
  * dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
- *               max(   选择 rest  ,           选择 sell      )
- *
+ * max(   选择 rest  ,           选择 sell      )
+ * <p>
  * 解释：今天我没有持有股票，有两种可能：
  * 要么是我昨天就没有持有，然后今天选择 rest，所以我今天还是没有持有；
  * 要么是我昨天持有股票，但是今天我 sell 了，所以我今天没有持有股票了。
- *
+ * <p>
  * dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i])
- *               max(   选择 rest  ,           选择 buy         )
- *
+ * max(   选择 rest  ,           选择 buy         )
+ * <p>
  * 解释：今天我持有着股票，有两种可能：
  * 要么我昨天就持有着股票，然后今天选择 rest，所以我今天还持有着股票；
  * 要么我昨天本没有持有，但今天我选择 buy，所以今天我就持有股票了。
  * 这个解释应该很清楚了，如果 buy，就要从利润中减去 prices[i]，如果 sell，就要给利润增加 prices[i]。今天的最大利润就是这两种可能选择中较大的那个。而且注意 k 的限制，我们在选择 buy 的时候，把 k 减小了 1，很好理解吧，当然你也可以在 sell 的时候减 1，一样的。
- *
+ * <p>
  * 现在，我们已经完成了动态规划中最困难的一步：状态转移方程。如果之前的内容你都可以理解，那么你已经可以秒杀所有问题了，只要套这个框架就行了。不过还差最后一点点，就是定义 base case，即最简单的情况。
- *
+ * <p>
  * dp[-1][k][0] = 0
  * 解释：因为 i 是从 0 开始的，所以 i = -1 意味着还没有开始，这时候的利润当然是 0 。
  * dp[-1][k][1] = -infinity
@@ -63,16 +61,16 @@ import com.leetcode.jzoffer.Problem12;
  * dp[i][0][1] = -infinity
  * 解释：不允许交易的情况下，是不可能持有股票的，用负无穷表示这种不可能。
  * 把上面的状态转移方程总结一下：
- *
+ * <p>
  * base case：
  * dp[-1][k][0] = dp[i][0][0] = 0
  * dp[-1][k][1] = dp[i][0][1] = -infinity
- *
+ * <p>
  * 状态转移方程：
  * dp[i][k][0] = max(dp[i-1][k][0], dp[i-1][k][1] + prices[i])
  * dp[i][k][1] = max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i])
  * 读者可能会问，这个数组索引是 -1 怎么编程表示出来呢，负无穷怎么表示呢？这都是细节问题，有很多方法实现。现在完整的框架已经完成，下面开始具体化。
- *
+ * <p>
  * 作者：labuladong
  * 链接：https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/solution/yi-ge-tong-yong-fang-fa-tuan-mie-6-dao-gu-piao-wen/
  * 来源：力扣（LeetCode）
@@ -81,16 +79,15 @@ import com.leetcode.jzoffer.Problem12;
 public class Problem123 {
 
     public int maxProfit(int[] prices) {
-        int buy1 = Integer.MAX_VALUE;
-        int buy2 = Integer.MAX_VALUE;
-        int profit1 = 0;
+        int buy1 = Integer.MIN_VALUE;
+        int sell1 = 0;
+        int buy2 = Integer.MIN_VALUE;
         int sell2 = 0;
         for (int price : prices) {
-            buy1 = Math.min(buy1, price);
-            profit1 = Math.max(profit1, price - buy1);
-            buy2 = Math.min(buy2, profit1 - price);
-            sell2 = Math.min(sell2, profit1 - buy2 + price);
-            //TODO
+            buy1 = Math.max(buy1, -price);
+            sell1 = Math.max(sell1, buy1 + price);
+            buy2 = Math.max(buy2, sell1 - price);
+            sell2 = Math.max(sell2, buy2 + price);
         }
         return sell2;
     }
