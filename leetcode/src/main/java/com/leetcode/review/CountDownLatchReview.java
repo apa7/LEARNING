@@ -45,6 +45,11 @@ public class CountDownLatchReview {
             e.printStackTrace();
         }
         System.out.println("2个子线程执行完毕");
+
+//        StampedLock
+//        Semaphore
+//        FutureTask
+//        ThreadLocalMap
     }
 
 }
