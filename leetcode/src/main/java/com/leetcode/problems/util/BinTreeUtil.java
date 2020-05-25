@@ -11,7 +11,26 @@ public class BinTreeUtil {
         }
         TreeNode root = new TreeNode(arr[0]);
         for (int i = 1; i < arr.length; i++) {
-            build(root, arr[i]);
+            Integer val = arr[i];
+            if(val == null){
+                continue;
+            }
+            build(root, val);
+        }
+        return root;
+    }
+
+    public static TreeNode build(Integer[] arr) {
+        if (arr == null || arr.length == 0) {
+            return null;
+        }
+        TreeNode root = new TreeNode(arr[0]);
+        for (int i = 1; i < arr.length; i++) {
+            Integer val = arr[i];
+            if(val == null){
+                continue;
+            }
+            build(root, val);
         }
         return root;
     }
