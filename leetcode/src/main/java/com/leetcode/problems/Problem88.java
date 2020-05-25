@@ -54,6 +54,28 @@ public class Problem88 {
         }
     }
 
+    public void merger2(int[] nums1, int m, int[] nums2, int n) {
+        int end = m + n - 1;
+        while (end >= 0) {
+            //nums1偏大,int[] nums1 = {4, 5, 7, 0, 0, 0}; int[] nums2 = {1, 2, 6};
+            if (m == 0) {
+                while (n > 0) {
+                    nums1[end--] = nums2[--n];
+                }
+                break;
+            }
+            //nums2偏大,int[] nums1 = {1, 2, 3, 0, 0, 0}; int[] nums2 = {4, 5, 6};
+            if (n == 0) {
+                break;
+            }
+            if (nums2[n - 1] > nums1[m - 1]) {
+                nums1[end--] = nums2[--n];
+            } else {
+                nums1[end--] = nums1[--m];
+            }
+        }
+    }
+
     public static void main(String[] args) {
         Problem88 p = new Problem88();
         int[] nums1 = {4, 5, 6, 0, 0, 0};
