@@ -1,0 +1,3 @@
+a=com.enjoy.infoService.impl.InfoServiceAImpl
+b=com.enjoy.infoService.impl.InfoServiceBImpl
+c=com.enjoy.infoService.impl.InfoServiceCImpl
