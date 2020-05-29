@@ -9,4 +9,13 @@ public class TreeNode {
         val = x;
     }
 
+    public TreeNode setLR(Integer l, Integer r) {
+        if (l != null) {
+            this.left = new TreeNode(l);
+        }
+        if (r != null) {
+            this.right = new TreeNode(r);
+        }
+        return this;
+    }
 }
