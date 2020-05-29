@@ -1,6 +1,5 @@
-package com.leetcode.problems;
+package com.leetcode.jzoffer;
 
-import com.leetcode.problems.util.TreeNode;
 
 /**
  * 面试题26. 树的子结构
