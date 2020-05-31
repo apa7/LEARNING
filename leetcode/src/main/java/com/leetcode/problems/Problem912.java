@@ -112,10 +112,15 @@ public class Problem912 {
     }
 
     public static void main(String[] args) {
+        int v = Double.valueOf(Math.pow(10, 9)).intValue() + 7;
+        System.out.println(v);
         int[] arr = {5, 1, 5, 6, 4, 9, 2, 7, 3, 1};
         Problem912 p = new Problem912();
         int[] sortArray = p.sortArray(arr);
         System.out.println(sortArray);
     }
+
+
+
 
 }
