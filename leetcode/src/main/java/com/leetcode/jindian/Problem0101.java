@@ -34,7 +34,6 @@ public class Problem0101 {
     }
 
     public static void main(String[] args) {
-
     }
 
 }
