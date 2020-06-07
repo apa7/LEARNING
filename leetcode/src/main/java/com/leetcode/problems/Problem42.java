@@ -6,35 +6,31 @@ package com.leetcode.problems;
 public class Problem42 {
 
     public int trap(int[] height) {
-        if (height.length <= 1) {
+        int len = height.length;
+        if (len <= 1) {
             return 0;
         }
-        //先递减再递增，才能接得住雨水。
-        //要求这个队列头为接水容器的左边缘，尾为容器右边缘。
-        //有几种情况：
-        // 1.右边缘>左边缘,取左边缘。一个接水容器完成。
-        // 2.右边缘=左边缘。一个接水容器完成。
-        // 3.右边缘<左边缘，一直取完height[], 左边都是最大的。
-        // 3这是最复杂的情况，应该去掉队首，重新从这个队列中寻找容器。
-        //LinkedList<Integer> stack = new LinkedList<>();
-        //stack.push(height[0]);
-        //容器数组，[[leftIndex,rightIndex,maxHeight]]
-        int[][] collections = new int[height.length / 3][3];
-        //List<Stack<Integer>> stackList = new ArrayList<>();
-        int maxHeight = 0;
-        int[] col = new int[3];
+        //代表当前位置的左边最大的值
+        int[] left = new int[len];
+        left[0] = height[0];
+        for (int i = 1; i < len; i++) {
+            left[i] = height[i - 1] > left[i - 1] ? height[i - 1] : left[i - 1];
+        }
+        //代表当前位置右边的最大值
+        int[] right = new int[len];
+        right[len - 1] = height[len - 1];
+        for (int i = len - 2; i >= 0; i--) {
+            right[i] = height[i + 1] > right[i + 1] ? height[i + 1] : right[i + 1];
+        }
+        int sum = 0;
         for (int i = 0; i < height.length; i++) {
-            col[0] = i;
-            if (height[i] >= col[0]) {
-                col[0] = i;
-            }
-            if (i == height.length - 1) {
-                //TODO最终节点，还没取完.情况3.
+            //left[i]与right[i] 较小的 就能确定当前的接水容器高度，高度减掉当前高度就是能接雨水的值
+            int h = Math.min(left[i], right[i]);
+            if (h > height[i]) {
+                sum += h - height[i];
             }
         }
-
-        //TODO 未完成
-        return 0;
+        return sum;
     }
 
     public static void main(String[] args) {
