@@ -36,59 +36,63 @@ import java.util.Arrays;
 public class Problem1300 {
 
     public int findBestValue(int[] arr, int target) {
-        int len = arr.length;
-        int avg = target / len;
-        int leftSum = 0;
-        int eqIdx = 0;
         Arrays.sort(arr);
-        for (int num : arr) {
-            if (num >= avg) {
+        int avg = target / arr.length;
+        int leftSum = 0;
+        int leftIdx = 0;
+        //确定左边索引
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] >= avg) {
+                leftIdx = i;
                 break;
             }
-            leftSum += num;
-            eqIdx++;
+            leftSum += arr[i];
         }
-        //左边少的，即与target的差距
-        int remain = leftSum + avg * (len - eqIdx) - target;
-        //从截止索引开始右移,缩小范围
-        for (int i = eqIdx; i < len; i++) {
-            //leftSum + arr[i] + avg
-            remain += arr[i];
-            if (remain > 0) {
-                eqIdx = i;
+        //确定右边索引
+        int rightIdx = leftIdx;
+        for (int i = rightIdx; i < arr.length; i++) {
+            int subresult = leftSum + (arr.length - i) * arr[i] - target;
+            if (subresult < 0) {
+                rightIdx = i;
+            } else if (subresult > 0) {
                 break;
+            } else {
+                //结果为0,最小,直接返回
+                return arr[rightIdx];
             }
         }
-        //TODO
-        return avg;
-    }
-
-
-    public int findBestValue2(int[] arr, int target) {
-        int n = arr.length;
-        int avg = target / n;
-        // 记录前一轮的差值
-        int pre = Integer.MAX_VALUE;
-        // 从平均值开始遍历
-        for (int i = avg; ; ++i) {
-            // 记录每轮的总和
-            int sum = 0;
-            for (int value : arr) {
-                sum += Math.min(value, i);
+        //结果一定就在[arr[leftIdx], arr[rightIdx]]之间
+        int left = arr[leftIdx] > avg ? avg : arr[leftIdx];
+        int right = arr[rightIdx];
+        int min = Integer.MAX_VALUE;
+        for (int i = left; i <= right; i++) {
+            if (i > arr[leftIdx]) {
+                leftSum += arr[leftIdx];
+                leftIdx++;
             }
-            // 比较差值，看前一个点是否是最小值
-            if (Math.abs(sum - target) >= pre) {
-                return i - 1;
+            int subresult = Math.abs(leftSum + (arr.length - leftIdx) * i - target);
+            if (subresult < min) {
+                min = subresult;
+                left = i;
+            } else if (subresult > min) {
+                break;
+            } else {
+                //结果为0,最小,直接返回
+                return left;
             }
-            // 更新差值记录
-            pre = Math.abs(sum - target);
         }
+        return left;
     }
 
+    public int sum(int[] arr, int mid) {
+        int sum = 0;
+        for (int v : arr) {
+            sum += Math.min(mid, v);
+        }
+        return sum;
+    }
 
     public static void main(String[] args) {
-        Problem1300 p = new Problem1300();
-        p.findBestValue(new int[]{60864, 25176, 27249, 21296, 20204}, 56803);
     }
 
 }
