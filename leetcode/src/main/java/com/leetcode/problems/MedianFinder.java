@@ -1,6 +1,6 @@
 package com.leetcode.problems;
 
-import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 /**
  * 295. 数据流的中位数
@@ -29,85 +29,57 @@ import java.util.LinkedList;
  * 如果数据流中 99% 的整数都在 0 到 100 范围内，你将如何优化你的算法？
  */
 
-//蛋疼的超时了
+/**
+ * 把一个数据流进行处理，一般都是分半处理。
+ * 通常我们用到的方法是暴力解法，类似插入排序，但是时间复杂度是0(N)，在这里，我们不会采用这个方法。
+ * 此题我们采用两个heap，一个maxheap和一个minheap来进行处理，在heap中插入num的时间复杂度是O（logn），所以快捷了很多。
+ * <p>
+ * 思路：
+ * <p>
+ * 我们需要明确，对于此题而言，找到median就意味着，我们可以将此数据流分为两部分，即第一部分值全部小于median（or =），第二部分值全部大于median（or =）。
+ * 所以我们用maxheap存第一部分，并按照倒序存放；minheap来存第二部分，并按照顺序排放。
+ * 我们先立下一个约定☝️，即maxheap总比minheap多一个，方便于我们之后进行查找。这样一来，初始第一个值就加入maxheap。
+ * 比较即将加入进heap的数字与两个堆堆顶的数字，若大于maxheap，则需要放进minheap中。
+ * 在后面陆续的增加中，我们只需保持两个heap size之间的关系，不断进行调节即可。
+ * 关于查找，那就只有两个地方可以找到median：如果是奇数，median肯定在maxheap的堆顶，直接输出即可；若是偶数，我们需要取出两个堆各自的堆顶元素，取其均值，再输出。
+ * <p>
+ */
 class MedianFinder {
 
-    volatile LinkedList<Integer> left;
-    volatile LinkedList<Integer> list;
-    volatile LinkedList<Integer> right;
+    PriorityQueue<Integer> leftHeap;
+    PriorityQueue<Integer> rightHeap;
 
     /**
      * initialize your data structure here.
      */
     public MedianFinder() {
-        list = new LinkedList<>();
-        left = new LinkedList<>();
-        left.push(Integer.MIN_VALUE);
-        right = new LinkedList<>();
-        right.push(Integer.MAX_VALUE);
+        leftHeap = new PriorityQueue<>((a, b) -> b - a);//顶部是最大
+        rightHeap = new PriorityQueue<>((a, b) -> a - b);//顶部是最小
     }
 
     public void addNum(int num) {
-        if (list.isEmpty()) { // 0个
-            list.push(num);
-        } else if (list.size() == 1) { // 1个
-            if (num < left.getLast()) { //位于左堆
-                list.addFirst(left.removeLast());
-                addLeft(num);
-            } else if (num > right.getFirst()) { //位于右堆
-                list.addLast(right.removeFirst());
-                addRight(num);
-            } else if (num < list.peek()) {
-                list.addFirst(num);
-            } else {
-                list.addLast(num);
-            }
-        } else { // 2个
-            if (num < list.getFirst()) { //位于左堆
-                right.addFirst(list.removeLast());
-                addLeft(num);
-            } else if (num > list.getLast()) { //位于右堆
-                left.addLast(list.removeFirst());
-                addRight(num);
-            } else {
-                left.addLast(list.removeFirst());
-                right.addFirst(list.removeLast());
-                list.push(num);
-            }
-        }
-    }
-
-    private void addRight(int num) {
-        if (num >= right.getLast()) {
-            right.addLast(num);
-        } else if (num <= right.getFirst()) {
-            right.addFirst(num);
+        if (leftHeap.size() == 0 || num <= leftHeap.peek()) {
+            leftHeap.offer(num);
         } else {
-            int idx = 0;
-            while (num > right.get(idx)) {
-                idx++;
-            }
-            right.add(idx, num);
+            rightHeap.offer(num);
         }
-    }
 
-    private void addLeft(int num) {
-        if (num <= left.getFirst()) {
-            left.addFirst(num);
-        } else if (num >= left.getLast()) {
-            left.addLast(num);
-        } else {
-            int idx = 0;
-            while (num > left.get(idx)) {
-                idx++;
-            }
-            left.add(idx, num);
+        //exchange element because leftHeap must be larger than rightHeap.
+        if (leftHeap.size() > rightHeap.size() + 1) {
+            rightHeap.add(leftHeap.poll());
+        } else if (leftHeap.size() < rightHeap.size()) {
+            leftHeap.add(rightHeap.poll());
         }
     }
 
     public double findMedian() {
-        return (list.getFirst() + list.getLast()) / 2.0;
+        if (leftHeap.size() != rightHeap.size()) {
+            return leftHeap.peek();
+        } else {
+            return leftHeap.peek() / 2.0 + rightHeap.peek() / 2.0;
+        }
     }
+
 
     public static void main(String[] args) {
         MedianFinder medianFinder = new MedianFinder();
