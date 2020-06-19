@@ -50,6 +50,7 @@ public class Problem125 {
 
     public static void main(String[] args) {
         Problem125 p = new Problem125();
+
         p.isPalindrome("`l;`` 1o1 ??;l`");
     }
 }
