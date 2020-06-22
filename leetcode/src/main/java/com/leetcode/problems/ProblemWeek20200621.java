@@ -1,7 +1,9 @@
 package com.leetcode.problems;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -78,8 +80,33 @@ public class ProblemWeek20200621 {
 //        xorOperation(4, 3);
 //        int[] r = avoidFlood(new int[]{2, 3, 0, 0, 3, 1, 0, 1, 0, 2, 2});
 //        System.out.println(r);
+        fourSum(new int[]{-3, -2, -1, 0, 0, 1, 2, 3}, 0);
     }
 
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        Arrays.sort(nums);
+        List<List<Integer>> list = new ArrayList<>();
+        Set<String> set = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                for (int k = j + 1; k < nums.length; k++) {
+                    for (int m = k + 1; m < nums.length; m++) {
+                        if (nums[i] + nums[j] + nums[k] + nums[m] == target) {
+                            Integer[] arr = {nums[i], nums[j], nums[k], nums[m]};
+                            String key = Arrays.toString(arr);
+                            if (set.contains(key)) {
+                                continue;
+                            } else {
+                                set.add(key);
+                            }
+                            list.add(Arrays.asList(arr));
+                        }
+                    }
+                }
+            }
+        }
+        return list;
+    }
 
 
     public static void main(String[] args) {
