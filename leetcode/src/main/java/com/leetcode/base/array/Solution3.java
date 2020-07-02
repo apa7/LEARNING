@@ -1,5 +1,7 @@
 package com.leetcode.base.array;
 
+import java.util.Arrays;
+
 /**
  * 旋转数组
  * 给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。
@@ -29,31 +31,30 @@ public class Solution3 {
 
     public void rotate(int[] nums, int k) {
         int len = nums.length;
+        k %= len;
         if (len <= 1 || k == 0) {
             return;
         }
-        int currentIdx = 0;
-        int pre = nums[currentIdx];
-        for (int i = 0; i < len; i++) {
-            int targetIdx = (currentIdx + k) % len;
-            int temp = nums[targetIdx];
-            nums[targetIdx] = pre;
-            /*if (length % k == 0 && (i + 1) % (length / k) == 0) {
-                targetIdx++;
-                temp = nums[targetIdx];
-            }*/
-            pre = temp;
-            currentIdx = targetIdx;
+        reverse(nums, 0, len - 1);
+        reverse(nums, 0, k);
+        reverse(nums, k + 1, len - 1);
+    }
+
+    private void reverse(int[] nums, int start, int end) {
+        while (start < end) {
+            int temp = nums[start];
+            nums[start++] = nums[end];
+            nums[end--] = temp;
         }
     }
 
     public static void main(String[] args) {
-        int[] arr = {1, 2, 3, 4, 5, 6,7,8};
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8};
         /*1, 2, 3, 4, 5, 6, 7
         7, 1, 2, 3, 4, 5, 6
         5, 6, 7, 1, 2, 3, 4*/
         Solution3 s3 = new Solution3();
-        s3.rotate(arr,4);
+        s3.rotate(arr, 4);
         System.out.println(arr);
     }
 
