@@ -31,44 +31,29 @@ package com.leetcode.problems;
  */
 public class Problem174 {
 
-    class Solution {
-        int maxRow;
-        int maxCol;
-        int[][] dg;
-
-        public int calculateMinimumHP(int[][] dungeon) {
-            this.maxRow = dungeon.length;
-            if (maxRow == 0) return -1;
-            this.maxCol = dungeon[0].length;
-            this.dg = dungeon;
-            return -calculate(0, 0);
+    public int calculateMinimumHP(int[][] dungeon) {
+        int row = dungeon.length;
+        int col = dungeon[0].length;
+        //这个数组表示在i,j位置骑士需要的最小生命值
+        int[][] dp = new int[row][col];
+        for (int i = row - 1; i >= 0; i--) {
+            for (int j = col - 1; j >= 0; j--) {
+                if (i == row - 1 && j == col - 1) { //终点的情况
+                    dp[i][j] = Math.max(1, 1 - dungeon[i][j]);
+                } else if (i == row - 1) { //最后一行的情况
+                    dp[i][j] = Math.max(1, dp[i][j + 1] - dungeon[i][j]);
+                } else if (j == col - 1) { //最后一列的情况
+                    dp[i][j] = Math.max(1, dp[i + 1][j] - dungeon[i][j]);
+                } else {
+                    dp[i][j] = Math.max(1, Math.min(dp[i + 1][j], dp[i][j + 1]) - dungeon[i][j]);
+                }
+            }
         }
-
-        public int calculate(int row, int col) {
-            if (row >= maxRow || col >= maxCol) {
-                return 0;
-            }
-
-            if (row + 1 == maxRow && col + 1 == maxCol) {
-                return dg[row][col];
-            }
-            int nextVal = 0;
-            if (row + 1 >= maxRow) {
-                nextVal = calculate(row, col + 1);
-            } else if (col + 1 >= maxCol) {
-                nextVal = calculate(row + 1, col);
-            } else if (dg[row + 1][col] > dg[row][col + 1]) {
-                nextVal = calculate(row + 1, col);
-            } else {
-                nextVal = calculate(row, col + 1);
-            }
-            return dg[row][col] + nextVal;
-        }
+        return dp[0][0];
     }
 
     private void test() {
-
-        new Solution().calculateMinimumHP(new int[][]{{-2}});
+        calculateMinimumHP(new int[][]{{2, 0, -1}});
     }
 
     public static void main(String[] args) {

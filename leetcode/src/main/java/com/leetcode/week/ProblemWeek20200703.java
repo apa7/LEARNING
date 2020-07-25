@@ -1,4 +1,4 @@
-package com.leetcode.problems;
+package com.leetcode.week;
 
 /**
  * Created by apa7 on 2020/6/21.

@@ -1,4 +1,4 @@
-package com.leetcode.problems;
+package com.leetcode.week;
 
 import java.util.ArrayList;
 import java.util.HashMap;
