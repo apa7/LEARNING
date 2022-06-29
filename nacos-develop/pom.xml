@@ -151,7 +151,7 @@
         <jjwt.version>0.10.5</jjwt.version>
         <netty-all.version>4.1.42.Final</netty-all.version>
         <netty-common.version>4.1.31.Final</netty-common.version>
-        <mina-core.version>2.0.0-RC1</mina-core.version>
+        <mina-core.version>2.0.22</mina-core.version>
         <guava.version>22.0</guava.version>
         <javatuples.version>1.2</javatuples.version>
         <commonOkHttp.version>0.4.1</commonOkHttp.version>
